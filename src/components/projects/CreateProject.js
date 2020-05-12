@@ -17,6 +17,7 @@ class CreateProject extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.props);
     this.props.createProject(this.state);
   };
 
@@ -53,4 +54,10 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CreateProject);
+const mapStateToProps = (state) => {
+  return {
+    projects: state.project.projects,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject);
