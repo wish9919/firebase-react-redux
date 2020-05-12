@@ -1,5 +1,6 @@
 {
-  "name": "wishplan",
+  "name": "wishdev-react-redux-firebase",
+  "author": "@wish9919",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
