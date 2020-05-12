@@ -4,6 +4,8 @@ class SignUp extends Component {
   state = {
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
   };
 
   handleChange = (e) => {
@@ -14,7 +16,7 @@ class SignUp extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
   };
 
   render() {
