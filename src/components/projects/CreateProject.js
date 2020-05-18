@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { createProject } from "../../store/actions/ProjectActions";
+import { Redirect } from "react-router-dom";
 
 class CreateProject extends Component {
   state = {
@@ -16,12 +17,20 @@ class CreateProject extends Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.props);
-    this.props.createProject(this.state);
+    const { title } = this.state;
+
+    if (title.length !== 0) {
+      e.preventDefault();
+      this.props.createProject(this.state);
+      this.props.history.push("/");
+    } else {
+      console.log("Title field can't be empty");
+    }
   };
 
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to="/login" />;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -56,7 +65,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    projects: state.project.projects,
+    auth: state.firebase.auth,
   };
 };
 

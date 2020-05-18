@@ -24,3 +24,17 @@ textarea.materialize-textarea:focus:not([readonly]) {
   border-color: #ec407a;
   box-shadow: none;
 }
+
+.preloader-main {
+  display: flex;
+}
+.preloader-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.white-spinner {
+  border-color: #fff !important;
+}

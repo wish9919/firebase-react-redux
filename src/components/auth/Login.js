@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+import { signIn } from "../../store/actions/AuthActions";
+import { Redirect } from "react-router-dom";
+
 class Login extends Component {
   state = {
     email: "",
     password: "",
+    isLoading: false,
   };
 
   handleChange = (e) => {
@@ -13,11 +18,22 @@ class Login extends Component {
   };
 
   handleSubmit = (e) => {
+    const { email, password } = this.state;
+    const creds = { email, password };
+    const { signIn } = this.props;
     e.preventDefault();
-    // console.log(this.state);
+    this.setState(
+      {
+        isLoading: true,
+      },
+      () => {
+        signIn(creds);
+      }
+    );
   };
 
   render() {
+    const { isLoading } = this.state;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -31,7 +47,27 @@ class Login extends Component {
             <input type="password" id="password" onChange={this.handleChange} />
           </div>
           <div className="input-field">
-            <button className="btn pink lighten-1 z-depth-0">Login</button>
+            <button className="btn pink lighten-1 z-depth-0">
+              {!isLoading ? (
+                "Login"
+              ) : (
+                <div className="preloader-main">
+                  <div className="preloader-wrapper small active">
+                    <div className="spinner-layer white-spinner spinner-blue-only">
+                      <div className="circle-clipper left">
+                        <div className="circle"></div>
+                      </div>
+                      <div className="gap-patch">
+                        <div className="circle"></div>
+                      </div>
+                      <div className="circle-clipper right">
+                        <div className="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </button>
           </div>
         </form>
       </div>
@@ -39,4 +75,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds)),
+  };
+};
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

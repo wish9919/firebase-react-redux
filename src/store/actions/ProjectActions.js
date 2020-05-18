@@ -1,7 +1,11 @@
 export const createProject = (project) => {
-  return (dispatch, getState, { getFirestore }) => {
+  return (dispatch, getState, { getFirestore, getFirebase }) => {
     //make async call to database
     const firestore = getFirestore();
+
+    const profile = getState().firebase.profile;
+    const authorId = getState().firebase.auth.uid;
+
     const d = new Date();
     const time = new Date().toLocaleTimeString();
     const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
@@ -11,9 +15,9 @@ export const createProject = (project) => {
       .collection("projects")
       .add({
         ...project,
-        authorFirstName: "Wishvantha",
-        authorLasttName: "Perera",
-        authorId: 12345,
+        authorFirstName: profile.firstName,
+        authorLastName: profile.lastName,
+        authorId: authorId,
         createdAt: `${mo} ${da} ${ye}, ${time}`,
       })
       .then(() => {
