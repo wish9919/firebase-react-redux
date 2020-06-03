@@ -2,14 +2,23 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { signIn } from "../../store/actions/AuthActions";
-import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   state = {
     email: "",
     password: "",
     isLoading: false,
+    errorMessage: null,
   };
+
+  componentDidUpdate(nextProps) {
+    const { auth } = this.props;
+    if (nextProps.auth !== auth) {
+      if (auth) {
+        this.setState({ errorMessage: auth.authError, isLoading: false });
+      }
+    }
+  }
 
   handleChange = (e) => {
     this.setState({
@@ -18,22 +27,20 @@ class Login extends Component {
   };
 
   handleSubmit = (e) => {
+    this.setState({
+      isLoading: true,
+    });
     const { email, password } = this.state;
     const creds = { email, password };
     const { signIn } = this.props;
     e.preventDefault();
-    this.setState(
-      {
-        isLoading: true,
-      },
-      () => {
-        signIn(creds);
-      }
-    );
+
+    signIn(creds);
   };
 
   render() {
     const { isLoading } = this.state;
+    const { auth } = this.props;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -46,6 +53,8 @@ class Login extends Component {
             <label htmlFor="password">Password</label>
             <input type="password" id="password" onChange={this.handleChange} />
           </div>
+          <div style={{ color: "red" }}>{auth.authError}</div>
+          <div style={{ color: "#292929", fontSize: 12 }}>{auth.error}</div>
           <div className="input-field">
             <button className="btn pink lighten-1 z-depth-0">
               {!isLoading ? (
@@ -81,8 +90,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 const mapStateToProps = (state) => {
+  // console.log(state);
   return {
-    auth: state.firebase.auth,
+    auth: state.auth,
   };
 };
 
