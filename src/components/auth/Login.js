@@ -14,9 +14,7 @@ class Login extends Component {
   componentDidUpdate(nextProps) {
     const { auth } = this.props;
     if (nextProps.auth !== auth) {
-      if (auth) {
-        this.setState({ errorMessage: auth.authError, isLoading: false });
-      }
+      this.setState({ errorMessage: auth.authError, isLoading: false });
     }
   }
 

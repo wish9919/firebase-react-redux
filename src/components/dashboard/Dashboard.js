@@ -8,6 +8,7 @@ import { compose } from "redux";
 class Dashboard extends Component {
   render() {
     const { projects } = this.props;
+
     return (
       <div className="dashboard container">
         <div className="row ">
@@ -42,6 +43,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log(state);
   return {
     projects: state.firestore.ordered.projects,
     auth: state.firebase.auth,
@@ -50,5 +52,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "projects" }])
+  firestoreConnect([{ collection: "projects", orderBy: ["createdAt", "desc"] }])
 )(Dashboard);
