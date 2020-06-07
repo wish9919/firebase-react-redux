@@ -18,19 +18,21 @@ const Navbar = (props) => {
     <SignedOutLinks />
   );
   return (
-    <nav className="nav-wrapper grey darken-3">
-      <div className="container">
-        <Link to="/" className="brand-logo left">
-          WishPlan
-        </Link>
-        {links}
-      </div>
-    </nav>
+    <div className="navbar-fixed">
+      <nav className="nav-wrapper grey darken-3">
+        <div className="container">
+          <Link to="/" className="brand-logo left hide-on-small-only">
+            Wish TODO
+          </Link>
+          {links}
+        </div>
+      </nav>
+    </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  // console.log(state);
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,

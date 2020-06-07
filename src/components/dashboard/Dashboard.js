@@ -1,19 +1,22 @@
 import React, { Component } from "react";
-import Notifications from "./Notifications";
-import ProjectList from "../projects/ProjectList";
+
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import TodoList from "../projects/TodoList";
+import Notifications from "./Notifications";
+import { deleteTodo } from "../../store/actions/TodoActions";
 
 class Dashboard extends Component {
   render() {
-    const { projects } = this.props;
+    const { todos, actions, auth, notifications } = this.props;
+    // console.log(notifications);
     return (
       <div className="dashboard container">
         <div className="row ">
           <div className="col s12 m6">
-            {projects ? (
-              <ProjectList projects={projects} />
+            {todos ? (
+              <TodoList todos={todos} actions={actions} user={auth.uid} />
             ) : (
               <div style={{ padding: 40 }} className="center-align">
                 <div className="preloader-wrapper active">
@@ -33,7 +36,7 @@ class Dashboard extends Component {
             )}
           </div>
           <div className="col s12 m5 offset-m1">
-            <Notifications />
+            <Notifications user={auth.uid} notifications={notifications} />
           </div>
         </div>
       </div>
@@ -43,12 +46,31 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    projects: state.firestore.ordered.projects,
+    todos: state.firestore.ordered.todos,
     auth: state.firebase.auth,
+    notifications: state.firestore.ordered.notifications,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      deleteTodo: (todo) => dispatch(deleteTodo(todo)),
+    },
   };
 };
 
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: "projects" }])
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    {
+      collection: `todos`,
+      orderBy: ["createdAt", "desc"],
+    },
+    {
+      collection: "notifications",
+      orderBy: ["time", "desc"],
+      limit: 5,
+    },
+  ])
 )(Dashboard);
