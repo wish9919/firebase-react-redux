@@ -12,7 +12,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 const createNotification = (notification) => {
   return admin
     .firestore()
-    .collection("notification")
+    .collection("notifications")
     .add(notification)
     .then((doc) => console.log("Notification Added!", doc));
 };
@@ -23,6 +23,19 @@ exports.todoCreated = functions.firestore
     const todo = doc.data();
     const notification = {
       content: "Added a new TODO",
+      user: `${todo.authorFirstName} ${todo.authorLastName}`,
+      time: admin.firestore.FieldValue.serverTimestamp(),
+    };
+
+    return createNotification(notification);
+  });
+
+exports.todoDeleted = functions.firestore
+  .document("todos/{todo}")
+  .onDelete((doc) => {
+    const todo = doc.data();
+    const notification = {
+      content: "Deleted a TODO",
       user: `${todo.authorFirstName} ${todo.authorLastName}`,
       time: admin.firestore.FieldValue.serverTimestamp(),
     };

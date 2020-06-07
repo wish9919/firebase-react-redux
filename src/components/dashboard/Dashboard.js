@@ -70,7 +70,7 @@ export default compose(
     {
       collection: "notifications",
       orderBy: ["time", "desc"],
-      limit: 3,
+      limit: 5,
     },
   ])
 )(Dashboard);
