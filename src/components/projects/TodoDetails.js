@@ -7,7 +7,7 @@ import moment from "moment";
 
 function TodoDetails(props) {
   const { todo, auth } = props;
-  console.log(props);
+  // console.log(props);
   if (!auth.uid) return <Redirect to="/login" />;
   if (todo) {
     return (

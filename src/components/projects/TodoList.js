@@ -3,7 +3,7 @@ import React from "react";
 import TodoSummary from "./TodoSummary";
 
 const TodoList = ({ todos, actions, user }) => {
-  console.log(user);
+  // console.log(user);
   return (
     <div className="project-list section">
       {
