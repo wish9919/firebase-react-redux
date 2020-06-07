@@ -24,6 +24,7 @@ exports.todoCreated = functions.firestore
     const notification = {
       content: "Added a new TODO",
       user: `${todo.authorFirstName} ${todo.authorLastName}`,
+      userId: `${todo.authorId}`,
       time: admin.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -37,6 +38,7 @@ exports.todoDeleted = functions.firestore
     const notification = {
       content: "Deleted a TODO",
       user: `${todo.authorFirstName} ${todo.authorLastName}`,
+      userId: `${todo.authorId}`,
       time: admin.firestore.FieldValue.serverTimestamp(),
     };
 
