@@ -9,8 +9,8 @@ import { deleteTodo } from "../../store/actions/TodoActions";
 
 class Dashboard extends Component {
   render() {
-    const { todos, actions, auth } = this.props;
-
+    const { todos, actions, auth, notifications } = this.props;
+    // console.log(notifications);
     return (
       <div className="dashboard container">
         <div className="row ">
@@ -36,7 +36,7 @@ class Dashboard extends Component {
             )}
           </div>
           <div className="col s12 m5 offset-m1">
-            <Notifications />
+            <Notifications notifications={notifications} />
           </div>
         </div>
       </div>
@@ -45,10 +45,10 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state);
   return {
     todos: state.firestore.ordered.todos,
     auth: state.firebase.auth,
+    notifications: state.firestore.ordered.notifications,
   };
 };
 
@@ -66,6 +66,11 @@ export default compose(
     {
       collection: `todos`,
       orderBy: ["createdAt", "desc"],
+    },
+    {
+      collection: "notifications",
+      orderBy: ["time", "desc"],
+      limit: 3,
     },
   ])
 )(Dashboard);

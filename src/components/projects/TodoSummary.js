@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 const TodoSummary = ({ todo, actions }) => {
   // console.log({ todo, actions });
   return (
-    <div className="card z-depth-0 pink todo-summary">
+    <div
+      style={{ marginBottom: 30 }}
+      className="card z-depth-0 pink todo-summary"
+    >
       <div className="card-content white-text text-darken-3">
         <span className="card-title">{todo.title}</span>
         <p>Posted by {`${todo.authorFirstName} ${todo.authorLastName}`}</p>
@@ -21,6 +24,7 @@ const TodoSummary = ({ todo, actions }) => {
             <i className="material-icons right">remove_red_eye</i>View
           </Link>
           <span
+            style={{ marginLeft: 10 }}
             onClick={() => actions.deleteTodo(todo.id)}
             className="waves-effect waves-light btn mr4"
           >

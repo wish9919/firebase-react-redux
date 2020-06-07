@@ -2,7 +2,7 @@ import React from "react";
 
 import TodoSummary from "./TodoSummary";
 
-const TodoList = ({ todos, actions, user }) => {
+const TodoList = ({ todos, actions, user, notifications }) => {
   // console.log(user);
   return (
     <div className="project-list section">
