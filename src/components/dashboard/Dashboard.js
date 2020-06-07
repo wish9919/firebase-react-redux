@@ -5,17 +5,18 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import TodoList from "../projects/TodoList";
 import Notifications from "./Notifications";
+import { deleteTodo } from "../../store/actions/TodoActions";
 
 class Dashboard extends Component {
   render() {
-    const { todos } = this.props;
+    const { todos, actions, auth } = this.props;
 
     return (
       <div className="dashboard container">
         <div className="row ">
           <div className="col s12 m6">
             {todos ? (
-              <TodoList todos={todos} />
+              <TodoList todos={todos} actions={actions} user={auth.uid} />
             ) : (
               <div style={{ padding: 40 }} className="center-align">
                 <div className="preloader-wrapper active">
@@ -51,7 +52,20 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      deleteTodo: (todo) => dispatch(deleteTodo(todo)),
+    },
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: "todos", orderBy: ["createdAt", "desc"] }])
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    {
+      collection: `todos`,
+      orderBy: ["createdAt", "desc"],
+    },
+  ])
 )(Dashboard);

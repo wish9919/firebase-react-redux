@@ -7,7 +7,7 @@ export const createTodo = (todo) => {
     const authorId = getState().firebase.auth.uid;
 
     firestore
-      .collection("todos")
+      .collection(`todos`)
       .add({
         ...todo,
         authorFirstName: profile.firstName,
@@ -20,6 +20,23 @@ export const createTodo = (todo) => {
       })
       .catch((err) => {
         dispatch({ type: "CREATE_TODO_ERROR", err });
+      });
+  };
+};
+
+export const deleteTodo = (todo) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+
+    firestore
+      .collection(`todos`)
+      .doc(`${todo}`)
+      .delete()
+      .then(() => {
+        dispatch({ type: "DELETE_TODO", todo });
+      })
+      .catch((err) => {
+        dispatch({ type: "DELETE_TODO_ERROR", err });
       });
   };
 };

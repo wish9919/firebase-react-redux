@@ -1,20 +1,22 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
 import TodoSummary from "./TodoSummary";
 
-const TodoList = ({ todos }) => {
+const TodoList = ({ todos, actions, user }) => {
+  console.log(user);
   return (
     <div className="project-list section">
       {
         todos &&
-          todos.map((todo) => {
-            return (
-              <Link key={todo.id} to={`/todo/` + todo.id}>
-                <TodoSummary todo={todo} />;
-              </Link>
-            );
-          })
+          todos
+            .filter((todo) => todo.authorId === user)
+            .map((todo) => {
+              return (
+                <div key={todo.id}>
+                  <TodoSummary todo={todo} actions={actions} />
+                </div>
+              );
+            })
         // projects.map((project) => {
         //   return (
         //     <Link key={project.id} to={`/project/` + project.id}>
