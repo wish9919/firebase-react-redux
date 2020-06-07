@@ -1,16 +1,17 @@
 import React from "react";
-import ProjectSummary from "./ProjectSummary";
-import { Link } from "react-router-dom";
 
-const ProjectList = ({ projects }) => {
+import { Link } from "react-router-dom";
+import TodoSummary from "./TodoSummary";
+
+const TodoList = ({ todos }) => {
   return (
     <div className="project-list section">
       {
-        projects &&
-          projects.map((project) => {
+        todos &&
+          todos.map((todo) => {
             return (
-              <Link key={project.id} to={`/project/` + project.id}>
-                <ProjectSummary project={project} />;
+              <Link key={todo.id} to={`/todo/` + todo.id}>
+                <TodoSummary todo={todo} />;
               </Link>
             );
           })
@@ -26,4 +27,4 @@ const ProjectList = ({ projects }) => {
   );
 };
 
-export default ProjectList;
+export default TodoList;

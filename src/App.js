@@ -6,12 +6,13 @@ import { BrowserRouter as Router, Switch } from "react-router-dom";
 //components
 import Navbar from "./components/layout/Navbar";
 import Dashboard from "./components/dashboard/Dashboard";
-import ProjectDetails from "./components/projects/ProjectDetails";
+import TodoDetails from "./components/projects/TodoDetails";
 import Login from "./components/auth/Login";
-import SignUp from "./components/auth/Signup";
-import CreateProject from "./components/projects/CreateProject";
-import AuthRoutes from "./components/routes/Auth.Routes";
+
+import CreateTodo from "./components/projects/CreateTodo";
 import ProtectedRoutes from "./components/routes/Protected.Routes";
+import AuthRoutes from "./components/routes/Auth.Routes";
+import Signup from "./components/auth/Signup";
 
 function App() {
   return (
@@ -20,10 +21,10 @@ function App() {
         <Navbar />
         <Switch>
           <ProtectedRoutes exact path="/" component={Dashboard} />
-          <ProtectedRoutes path="/project/:id" component={ProjectDetails} />
+          <ProtectedRoutes path="/todo/:id" component={TodoDetails} />
           <AuthRoutes path="/login" component={Login} />
-          <AuthRoutes path="/signup" component={SignUp} />
-          <ProtectedRoutes path="/create" component={CreateProject} />
+          <AuthRoutes path="/signup" component={Signup} />
+          <ProtectedRoutes path="/create" component={CreateTodo} />
         </Switch>
       </div>
     </Router>

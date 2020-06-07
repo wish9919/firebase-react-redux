@@ -1,4 +1,4 @@
-export const createProject = (project) => {
+export const createTodo = (todo) => {
   return (dispatch, getState, { getFirestore, getFirebase }) => {
     //make async call to database
     const firestore = getFirestore();
@@ -7,19 +7,19 @@ export const createProject = (project) => {
     const authorId = getState().firebase.auth.uid;
 
     firestore
-      .collection("projects")
+      .collection("todos")
       .add({
-        ...project,
+        ...todo,
         authorFirstName: profile.firstName,
         authorLastName: profile.lastName,
         authorId: authorId,
         createdAt: new Date(),
       })
       .then(() => {
-        dispatch({ type: "CREATE_PROJECT", project });
+        dispatch({ type: "CREATE_TODO", todo });
       })
       .catch((err) => {
-        dispatch({ type: "CREATE_PROJECT_ERROR", err });
+        dispatch({ type: "CREATE_TODO_ERROR", err });
       });
   };
 };

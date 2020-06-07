@@ -1,20 +1,21 @@
 import React, { Component } from "react";
-import Notifications from "./Notifications";
-import ProjectList from "../projects/ProjectList";
+
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import TodoList from "../projects/TodoList";
+import Notifications from "./Notifications";
 
 class Dashboard extends Component {
   render() {
-    const { projects } = this.props;
+    const { todos } = this.props;
 
     return (
       <div className="dashboard container">
         <div className="row ">
           <div className="col s12 m6">
-            {projects ? (
-              <ProjectList projects={projects} />
+            {todos ? (
+              <TodoList todos={todos} />
             ) : (
               <div style={{ padding: 40 }} className="center-align">
                 <div className="preloader-wrapper active">
@@ -45,12 +46,12 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
   // console.log(state);
   return {
-    projects: state.firestore.ordered.projects,
+    todos: state.firestore.ordered.todos,
     auth: state.firebase.auth,
   };
 };
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "projects", orderBy: ["createdAt", "desc"] }])
+  firestoreConnect([{ collection: "todos", orderBy: ["createdAt", "desc"] }])
 )(Dashboard);

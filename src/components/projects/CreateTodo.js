@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { createProject } from "../../store/actions/ProjectActions";
+import { createTodo } from "../../store/actions/TodoActions";
 import { Redirect } from "react-router-dom";
 
-class CreateProject extends Component {
+class CreateTodo extends Component {
   state = {
     title: "",
     content: "",
@@ -21,7 +21,7 @@ class CreateProject extends Component {
 
     if (title.length !== 0) {
       e.preventDefault();
-      this.props.createProject(this.state);
+      this.props.createTodo(this.state);
       this.props.history.push("/");
     } else {
       console.log("Title field can't be empty");
@@ -34,7 +34,7 @@ class CreateProject extends Component {
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
-          <h5 className="grey-text text-darken-3">Create New Project</h5>
+          <h5 className="grey-text text-darken-3">Create New Todo</h5>
           <div className="input-field">
             <label htmlFor="title">Title</label>
             <input type="text" id="title" onChange={this.handleChange} />
@@ -59,7 +59,7 @@ class CreateProject extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createProject: (project) => dispatch(createProject(project)),
+    createTodo: (todo) => dispatch(createTodo(todo)),
   };
 };
 
@@ -69,4 +69,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProject);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTodo);
